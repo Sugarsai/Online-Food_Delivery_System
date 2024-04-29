@@ -1,0 +1,224 @@
+*{
+
+}
+
+body{
+    background: linear-gradient(rgba(20, 21, 22, 0.9), rgba(15, 16, 16, 0.9)), url("./images/background.jpg");
+  background-size:cover ;
+  background-position: center;
+  height: 100vh;
+}
+
+.form {
+    width: 100%;
+    height: 100vh;
+    background-image: url(form_img.jpg);
+    background-position: center;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: aliceblue;
+}
+
+form {
+    width: 90%;
+    max-width: 600px;
+}
+
+.input-group {
+    margin-bottom: 30px;
+    position: relative;
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 10px;
+    outline: 0;
+    border: 1px solid #fff;
+    border-radius: 15px;
+    background: transparent;
+    font-size: 15px;
+}
+
+label {
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding: 10px;
+    cursor: text;
+    transition: 0.2s;
+}
+
+.image {
+    cursor: pointer;
+    top: -35px;
+    font-size: 14px;
+}
+
+button {
+    padding: 10px 0;
+    outline: none;
+    background: transparent;
+    border: 1px solid #fff;
+    border-radius: 15px;
+    cursor: pointer;
+    width: 25%;
+    color: aliceblue;
+
+}
+
+.button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+input:focus~label,
+input:valid~label,
+textarea:focus~label,
+textarea:valid~label {
+    top: -35px;
+    font-size: 14px;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    list-style: none;
+}
+.navbar{
+    position: absolute;
+    margin: -15px 0;
+display: flex;
+justify-content: space-between;
+width: 100%;
+box-sizing: border-box;
+padding:30px 50px;
+align-items: center;
+}
+.navbar .logo{
+    font-size: 2em;
+    font-weight: bold;
+}
+.navbar a {
+    color: rgb(255, 255, 255);
+}
+.navbar .nav-links ul{
+display: flex;
+}
+.navbar .nav-links ul li{
+    margin: 0 25px;
+    font-size: 20px;
+    }
+  
+    .navbar .nav-links ul li a:hover{
+        color: rgb(180, 26, 26);
+        }
+    .navbar .nav-links ul li.Home a{
+      color: rgb(180, 26, 26);
+      font-weight: 600;
+        }
+        .navbar .nav-links ul li.Home a:hover{
+            color:white;
+              }
+   
+    .navbar .nav-links ul li ul li {
+        width: 100%;
+        padding: 10px 5px;
+    }
+    .navbar .nav-links ul li ul a {
+        color: #000;
+    }
+    .navbar .nav-links ul li ul a:hover {
+        color: white;
+    }
+    .navbar .nav-links ul li:focus-within > ul,
+    .navbar .nav-links ul li:hover > ul{
+        display: initial;
+    }
+        .navbar .menu-hamburger{
+            width: 35px;
+            position: absolute;
+            right: 50px;
+            top: 50px;
+            display: none;
+        }
+        .mobile-menu{
+            margin-left: 0;
+            
+        }
+        .btn{
+            border: 0 solid ;
+            background-color: transparent;
+            text-decoration: none;
+            cursor: pointer;
+            padding: 0px;
+            font-size: 20px;
+        }
+        .btn:hover{
+            color: rgb(180, 26, 26);
+        }
+       .show{
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+       }
+.more{
+    width: 100px;
+    height: 20px;
+    
+}
+        .h1-head{
+            position:absolute;
+            left: 10%;
+            top: 13vh;
+            font-size: 40px;
+        }
+        
+        @media screen and (max-width: 900px) {
+            .navbar .logo{
+                position:absolute;
+                top: 40px;
+                left: 30px;
+            }
+            .navbar{
+                padding:0;
+                
+            }
+            .navbar .menu-hamburger{
+                display: block;
+                z-index: 1001;
+            }
+            .nav-links.mobile-menu{
+                margin-left: 0 ;
+                
+            }
+            .nav-links{
+                top: 0;
+                left: 0;
+                position: absolute;
+                background-color: #ffffff3a;
+                backdrop-filter: blur(7px);
+                width: 100%;
+                height: 100vh;
+                display: flex;
+                z-index: 1000;
+                justify-content: center;
+                align-items: center;
+                margin-left: -100%;
+                transition: all 1s ease;
+            }
+            .nav-links ul{
+                display:flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            .navbar .nav-links ul li{
+                margin:  25px;
+                font-size: 1.2em;
+                }
+        }
