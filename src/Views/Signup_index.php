@@ -1,6 +1,6 @@
 <?php
 
-include('E:\HTML\contact us\sign up\connection.php');
+include('../controller/connection.php');
 
 
 ?>
@@ -14,7 +14,7 @@ include('E:\HTML\contact us\sign up\connection.php');
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
     />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="./assests/Signup_styles.css" />
   </head>
   <body>
   <?php
@@ -44,7 +44,7 @@ else if(isset($_GET['success']))
 <!-- login & register -->
     <div class="container" id="container">
       <div class="form-container sign-up">
-<form action="./process.php" method="POST">
+<form action="../controller/Signup_process.php" method="POST">
           <h1>Create Account</h1>
           <input type="text" placeholder="Name" name="Name" >
           <input type="email" placeholder="Email" name="Email" >
@@ -55,7 +55,7 @@ else if(isset($_GET['success']))
       <!-- sign in -->
 
       <div class="form-container sign-in">
-        <form method="post" action="./process-login.php" >
+        <form method="post" action="../controller/process-login.php" >
           <h1>Log In</h1>
       <input type="email" placeholder="Email" name="Email">
           <input type="password" placeholder="password" name="password">
@@ -80,7 +80,7 @@ else if(isset($_GET['success']))
         </div>
       </div>
     </div>
-    <script src="script.js"></script>
+    <script src="./assests/Signup_script.js"></script>
     
   </body>
   <script>

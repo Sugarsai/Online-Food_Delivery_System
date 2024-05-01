@@ -20,9 +20,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 $_SESSION["user_id"] = $user["id"];
 $_SESSION["user_name"] = $user["name1"];
 if ($user["role1"] == 1) {
-    header('Location:/SE-Project/Admin/index.php');
+    header('Location:../views/Admin_index.php');
 } else {
-    header('Location: /SE-Project/freshshop/index.php');
+    header('Location:../views/index.php');
 }
 exit;
         } else {

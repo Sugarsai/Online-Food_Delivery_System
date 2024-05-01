@@ -1,6 +1,6 @@
 <?php 
 session_start();
 session_destroy();
-header("location: ../contact-us.php");
+header("location:../views/signup_index.php");
 
 exit;

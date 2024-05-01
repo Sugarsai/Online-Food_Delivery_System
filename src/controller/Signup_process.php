@@ -1,5 +1,5 @@
 <?php 
-include('connection.php');
+include('db_login.php');
 
 if (isset($_POST['sign-up'])) {
     $user_name = $_POST["Name"];
@@ -7,7 +7,7 @@ if (isset($_POST['sign-up'])) {
     $password = $_POST["password"];
 
     if (empty($user_name) || empty($user_email) || empty($password)) {
-        header('location:./index.php?error');
+        header('location:../views/signup_index.php');
     
     } else {
         // Check if the record already exists
@@ -18,7 +18,7 @@ if (isset($_POST['sign-up'])) {
         $result = $checkStmt->get_result();
 
         if ($result->num_rows > 0) {
-            header('location:index.php?duplicate');
+            header('location:../views/signup_index.php?duplicate');
         } else {
             // Insert the record
             $insertQuery = "INSERT INTO signup (name1, Email, password1, role1) VALUES (?, ?, ?,2)";
@@ -26,7 +26,7 @@ if (isset($_POST['sign-up'])) {
             $insertStmt->bind_param("sss", $user_name, $user_email, $password);
 
             if ($insertStmt->execute()) {
-                header("location: signup-success.html");
+                header("location:../views/signup-success.html");
                 exit;
             } else {
                 die($insertStmt->error . " " . $insertStmt->errno);
