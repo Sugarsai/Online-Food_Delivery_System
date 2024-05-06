@@ -10,111 +10,52 @@ for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@
                 <!DOCTYPE html>
                 <html lang="en">
                 <?php
-include("../connection/connect.php");
-error_reporting(0);
-session_start();
 
+                session_start();
 
+                include("../src/RestaurantManager.php");
+                $error = "";
+                $success = "";
+                $restaurant = new RestaurantManager();
 
+                if (isset($_POST['submit'])) {
+                    $title = $_POST['res_name'];
+                    $email = $_POST['email'];
+                    $phone = $_POST['phone'];
+                    $url = $_POST['url'];
+                    $openHour = $_POST['o_hr'];
+                    $closeHour = $_POST['c_hr'];
+                    $workingDays = $_POST['o_days'];
+                    $address = $_POST['address'];
+                    $categoryName = $_POST['c_name'];
 
-if(isset($_POST['submit']))          
-{
-	
-			
-		
-			
-		  
-		
-		
-		if(empty($_POST['c_name'])||empty($_POST['res_name'])||$_POST['email']==''||$_POST['phone']==''||$_POST['url']==''||$_POST['o_hr']==''||$_POST['c_hr']==''||$_POST['o_days']==''||$_POST['address']=='')
-		{	
-											$error = 	'<div class="alert alert-danger alert-dismissible fade show">
-																<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-																<strong>All fields Must be Fillup!</strong>
-															</div>';
-									
-		
-								
-		}
-	else
-		{
-		
-				$fname = $_FILES['file']['name'];
-								$temp = $_FILES['file']['tmp_name'];
-								$fsize = $_FILES['file']['size'];
-								$extension = explode('.',$fname);
-								$extension = strtolower(end($extension));  
-								$fnew = uniqid().'.'.$extension;
-   
-								$store = "Res_img/".basename($fnew);                      
-	
-					if($extension == 'jpg'||$extension == 'png'||$extension == 'gif' )
-					{        
-									if($fsize>=1000000)
-										{
-		
-		
-												$error = 	'<div class="alert alert-danger alert-dismissible fade show">
-																<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-																<strong>Max Image Size is 1024kb!</strong> Try different Image.
-															</div>';
-	   
-										}
-		
-									else
-										{
-												
-												
-												$res_name=$_POST['res_name'];
-				                                 
-												$sql = "INSERT INTO restaurant(c_id,title,email,phone,url,o_hr,c_hr,o_days,address,image) VALUE('".$_POST['c_name']."','".$res_name."','".$_POST['email']."','".$_POST['phone']."','".$_POST['url']."','".$_POST['o_hr']."','".$_POST['c_hr']."','".$_POST['o_days']."','".$_POST['address']."','".$fnew."')";  // store the submited data ino the database :images
-												mysqli_query($db, $sql); 
-												move_uploaded_file($temp, $store);
-			  
-													$success = 	'<div class="alert alert-success alert-dismissible fade show">
-																<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-																 New Restaurant Added Successfully.
-															</div>';
-                
-	
-										}
-					}
-					elseif($extension == '')
-					{
-						$error = 	'<div class="alert alert-danger alert-dismissible fade show">
-																<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-																<strong>select image</strong>
-															</div>';
-					}
-					else{
-					
-											$error = 	'<div class="alert alert-danger alert-dismissible fade show">
-																<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-																<strong>invalid extension!</strong>png, jpg, Gif are accepted.
-															</div>';
-						
-	   
-						}               
-	   
-	   
-	   }
+                    // File handling
+                    $fname = $_FILES['file']['name'];
+                    $temp = $_FILES['file']['tmp_name'];
+                    $fsize = $_FILES['file']['size'];
+                    $extension = explode('.', $fname);
+                    $extension = strtolower(end($extension));
+                    $fnew = uniqid() . '.' . $extension;
+                    $store = "Res_img/" . basename($fnew);
 
+                    // Call the addRestaurant method of the RestaurantManager class
+                    $result = $restaurant->addRestaurant($title, $email, $phone, $url, $openHour, $closeHour, $workingDays, $fnew, $address, $categoryName);
 
+                    if ($result === true) {
+                        move_uploaded_file($temp, $store);
+                        $success = '<div class="alert alert-success alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            New Restaurant Added Successfully.
+        </div>';
+                    } else {
+                        $error = '<div class="alert alert-danger alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            ' . $result . '
+        </div>';
+                    }
+                }
+                ?>
 
-	
-	
-	
-
-}
-
-
-
-
-
-
-
-
-?>
                 <!-- /*!
 * Author Name: MH RONY.
 * GigHub Link: https://github.com/dev-mhrony
@@ -300,8 +241,8 @@ for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@
 
 
 
-                                <?php  echo $error;
-									        echo $success; ?>
+                                <?php echo $error;
+                                echo $success; ?>
 
                                 <!-- /*!
 * Author Name: MH RONY.
@@ -474,14 +415,13 @@ for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@
                                                                 <label class="control-label">Select Category</label>
                                                                 <select name="c_name" class="form-control custom-select" data-placeholder="Choose a Category" tabindex="1">
                                                                     <option>--Select Category--</option>
-                                                                    <?php $ssql ="select * from res_category";
-													$res=mysqli_query($db, $ssql); 
-													while($row=mysqli_fetch_array($res))  
-													{
-                                                       echo' <option value="'.$row['c_id'].'">'.$row['c_name'].'</option>';;
-													}  
-                                                 
-													?>
+                                                                    <?php $ssql = "select * from res_category";
+                                                                    $res = mysqli_query($db, $ssql);
+                                                                    while ($row = mysqli_fetch_array($res)) {
+                                                                        echo ' <option value="' . $row['c_id'] . '">' . $row['c_name'] . '</option>';;
+                                                                    }
+
+                                                                    ?>
                                                                 </select>
                                                             </div>
                                                         </div>
