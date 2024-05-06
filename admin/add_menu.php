@@ -10,16 +10,21 @@ for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@
                 <!DOCTYPE html>
                 <html lang="en">
                 <?php
-include("../connection/connect.php");
-error_reporting(0);
+require_once '../vendor/autoload.php';
+use MyApp\MenuManager;
 session_start();
+$menu = new MenuManager();
+
+$error = '';
+$success = '';
+
 
 
 
 
 if(isset($_POST['submit']))          
 {
-	
+    
 			
 		
 			
@@ -67,9 +72,15 @@ if(isset($_POST['submit']))
 												
 												
 				                                 
-												$sql = "INSERT INTO dishes(rs_id,title,slogan,price,img) VALUE('".$_POST['res_name']."','".$_POST['d_name']."','".$_POST['about']."','".$_POST['price']."','".$fnew."')";  // store the submited data ino the database :images
-												mysqli_query($db, $sql); 
-												move_uploaded_file($temp, $store);
+                                            $sql = "INSERT INTO dishes (rs_id, title, slogan, price, img) VALUES (?, ?, ?, ?, ?)";
+                                            $stmt = mysqli_prepare($db, $sql);
+                                            
+                                            // Bind parameters
+                                            mysqli_stmt_bind_param($stmt, "issss", $_POST['res_name'], $_POST['d_name'], $_POST['about'], $_POST['price'], $fnew);
+                                            
+                                            // Execute the statement
+                                            mysqli_stmt_execute($stmt);
+											move_uploaded_file($temp, $store);
 			  
 													$success = 	'<div class="alert alert-success alert-dismissible fade show">
 																<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -140,11 +151,11 @@ for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@
 
                 <body class="fix-header">
 
-                    <div class="preloader">
+                    <!-- <div class="preloader">
                         <svg class="circular" viewBox="25 25 50 50">
                             <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
                         </svg>
-                    </div>
+                    </div> -->
 
                     <div id="main-wrapper">
 

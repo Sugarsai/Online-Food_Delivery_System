@@ -7,7 +7,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php
-include("connection/connect.php");
+include 'vendor/autoload.php';
+include 'connection/connect.php';
+use MyApp\RestaurantManager;
 session_start();
 ?>
 <!--  Author Name: MH RONY.
@@ -106,7 +108,9 @@ session_start();
                     <div class="col-xs-12 col-sm-7 col-md-7 col-lg-9">
                         <div class="bg-gray restaurant-entry">
                             <div class="row">
-                                <?php $ress= mysqli_query($db,"select * from restaurant");
+                                <?php 
+                                            $restaurant = new RestaurantManager();
+                                            $ress = $restaurant->getRestaurants();
 									      while($rows=mysqli_fetch_array($ress))
 										  {
 													

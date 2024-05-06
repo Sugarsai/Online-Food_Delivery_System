@@ -46,5 +46,20 @@ class Database {
         return mysqli_num_rows($result);
     }
 
+    public function fetchArray($result) {
+        return mysqli_fetch_array($result);
+    }
+
+    public function prepare($sql) {
+        return mysqli_prepare($this->conn, $sql);
+    }
+
+    public function bindParams($stmt, $types, ...$params) {
+        mysqli_stmt_bind_param($stmt, $types, ...$params);
+    }
+
+    public function execute($stmt) {
+        mysqli_stmt_execute($stmt);
+    }
     
 }

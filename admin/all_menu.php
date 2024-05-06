@@ -11,7 +11,6 @@ for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@
                 <html lang="en">
                 <?php
 include("../connection/connect.php");
-error_reporting(0);
 session_start();
 
 ?>

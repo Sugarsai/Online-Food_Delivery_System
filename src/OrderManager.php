@@ -10,7 +10,7 @@ class OrderManager{
 
     private $order_id;
 
-    private function __construct() {
+    public function __construct() {
         $this->db = Database::getInstance();
     }
 
