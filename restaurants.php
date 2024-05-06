@@ -110,8 +110,8 @@ session_start();
                             <div class="row">
                                 <?php 
                                             $restaurant = new RestaurantManager();
-                                            $ress = $restaurant->getRestaurants();
-									      while($rows=mysqli_fetch_array($ress))
+                                            $ress = $restaurant->getAllRestaurants();
+                                            foreach($ress as $rows)
 										  {
 													
 						

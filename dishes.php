@@ -94,7 +94,7 @@ include_once 'product-action.php';
                 </ul>
             </div>
         </div>
-        <?php $ress= mysqli_query($db,"select * from restaurant where rs_id='$_GET[res_id]'");
+        <?php $ress= mysqli_query($db,"select * from shop where rs_id='$_GET[res_id]'");
 									     $rows=mysqli_fetch_array($ress);
 										  
 										  ?>

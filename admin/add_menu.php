@@ -11,117 +11,16 @@ for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@
                 <html lang="en">
                 <?php
 require_once '../vendor/autoload.php';
+require_once '../connection/connect.php';
 use MyApp\MenuManager;
 session_start();
-$menu = new MenuManager();
 
 $error = '';
 $success = '';
 
-
-
-
-
-if(isset($_POST['submit']))          
-{
-    
-			
-		
-			
-		  
-		
-		
-		if(empty($_POST['d_name'])||empty($_POST['about'])||$_POST['price']==''||$_POST['res_name']=='')
-		{	
-											$error = 	'<div class="alert alert-danger alert-dismissible fade show">
-																<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-																<strong>All fields Must be Fillup!</strong>
-															</div>';
-									
-		
-								
-		}
-	else
-		{
-		
-				$fname = $_FILES['file']['name'];
-								$temp = $_FILES['file']['tmp_name'];
-								$fsize = $_FILES['file']['size'];
-								$extension = explode('.',$fname);
-								$extension = strtolower(end($extension));  
-								$fnew = uniqid().'.'.$extension;
-   
-								$store = "Res_img/dishes/".basename($fnew);                    
-	
-					if($extension == 'jpg'||$extension == 'png'||$extension == 'gif' )
-					{        
-									if($fsize>=1000000)
-										{
-		
-		
-												$error = 	'<div class="alert alert-danger alert-dismissible fade show">
-																<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-																<strong>Max Image Size is 1024kb!</strong> Try different Image.
-															</div>';
-	   
-										}
-		
-									else
-										{
-												
-												
-												
-				                                 
-                                            $sql = "INSERT INTO dishes (rs_id, title, slogan, price, img) VALUES (?, ?, ?, ?, ?)";
-                                            $stmt = mysqli_prepare($db, $sql);
-                                            
-                                            // Bind parameters
-                                            mysqli_stmt_bind_param($stmt, "issss", $_POST['res_name'], $_POST['d_name'], $_POST['about'], $_POST['price'], $fnew);
-                                            
-                                            // Execute the statement
-                                            mysqli_stmt_execute($stmt);
-											move_uploaded_file($temp, $store);
-			  
-													$success = 	'<div class="alert alert-success alert-dismissible fade show">
-																<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-																 New Dish Added Successfully.
-															</div>';
-                
-	
-										}
-					}
-					elseif($extension == '')
-					{
-						$error = 	'<div class="alert alert-danger alert-dismissible fade show">
-																<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-																<strong>select image</strong>
-															</div>';
-					}
-					else{
-					
-											$error = 	'<div class="alert alert-danger alert-dismissible fade show">
-																<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-																<strong>invalid extension!</strong>png, jpg, Gif are accepted.
-															</div>';
-						
-	   
-						}               
-	   
-	   
-	   }
-
-
-
-	
-	
-	
-
-}
-
-
-
-
-
+$formdata = $_POST;
+$menuManager = new MenuManager();
+$result = $menuManager->addDish($formdata);
 
 
 
@@ -301,8 +200,7 @@ for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@
                                 <!-- Start Page Content -->
 
 
-                                <?php  echo $error;
-									        echo $success; ?>
+                                <?php  echo $result; ?>
 
 
                                 <!-- /*!
@@ -392,7 +290,7 @@ for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@
                                                                 <label class="control-label">Select Restaurant</label>
                                                                 <select name="res_name" class="form-control custom-select" data-placeholder="Choose a Category" tabindex="1">
                                                                     <option>--Select Restaurant--</option>
-                                                                    <?php $ssql ="select * from restaurant";
+                                                                    <?php $ssql ="select * from shop";
 													$res=mysqli_query($db, $ssql); 
 													while($row=mysqli_fetch_array($res))  
 													{

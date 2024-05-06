@@ -7,13 +7,12 @@ for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@
 * Visit My Website : developerrony.com
 
 */ -->
-<!DOCTYPE html>
-                <html lang="en">
-                <?php
+
+<?php
+                include "../vendor/autoload.php";
+                use MyApp\RestaurantManager;
 
                 session_start();
-
-                include("../src/RestaurantManager.php");
                 $error = "";
                 $success = "";
                 $restaurant = new RestaurantManager();
@@ -37,6 +36,11 @@ for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@
                     $extension = strtolower(end($extension));
                     $fnew = uniqid() . '.' . $extension;
                     $store = "Res_img/" . basename($fnew);
+                    if ($extension == 'jpg' || $extension == 'png' || $extension == 'jpeg') {
+                        if ($fsize >= 1000000) {
+                            $error = '<div class="alert alert-danger alert-dismissible fade show">';}
+                        }
+                    
 
                     // Call the addRestaurant method of the RestaurantManager class
                     $result = $restaurant->addRestaurant($title, $email, $phone, $url, $openHour, $closeHour, $workingDays, $fnew, $address, $categoryName);
@@ -55,6 +59,8 @@ for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@
                     }
                 }
                 ?>
+<!DOCTYPE html>
+                <html lang="en">
 
                 <!-- /*!
 * Author Name: MH RONY.
@@ -81,11 +87,11 @@ for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@
 
                 <body class="fix-header">
 
-                    <div class="preloader">
+                    <!-- <div class="preloader">
                         <svg class="circular" viewBox="25 25 50 50">
                             <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
                         </svg>
-                    </div>
+                    </div> -->
 
                     <div id="main-wrapper">
 
@@ -415,8 +421,8 @@ for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@
                                                                 <label class="control-label">Select Category</label>
                                                                 <select name="c_name" class="form-control custom-select" data-placeholder="Choose a Category" tabindex="1">
                                                                     <option>--Select Category--</option>
-                                                                    <?php $ssql = "select * from res_category";
-                                                                    $res = mysqli_query($db, $ssql);
+                                                                    <?php 
+                                                                    $res = $restaurant->getCategory();
                                                                     while ($row = mysqli_fetch_array($res)) {
                                                                         echo ' <option value="' . $row['c_id'] . '">' . $row['c_name'] . '</option>';;
                                                                     }

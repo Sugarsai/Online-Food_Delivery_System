@@ -10,8 +10,16 @@ for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@
                 <!DOCTYPE html>
                 <html lang="en">
                 <?php
-include("../connection/connect.php");
-error_reporting(0);
+include "../vendor/autoload.php";
+use MyApp\RestaurantManager;
+
+
+
+$restaurantManager = new RestaurantManager();
+
+
+$restaurants = $restaurantManager->getAllRestaurants();
+
 session_start();
 
 ?>
@@ -251,52 +259,33 @@ for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@
 
 */ -->
 
-                                                            <?php
-												$sql="SELECT * FROM restaurant order by rs_id desc";
-												$query=mysqli_query($db,$sql);
-												
-													if(!mysqli_num_rows($query) > 0 )
-														{
-															echo '<td colspan="11"><center>No Restaurants</center></td>';
-														}
-													else
-														{				
-																	while($rows=mysqli_fetch_array($query))
-																		{
-																					
-																				$mql="SELECT * FROM res_category where c_id='".$rows['c_id']."'";
-																					$res=mysqli_query($db,$mql);
-																					$row=mysqli_fetch_array($res);
-																				
-																					echo ' <tr><td>'.$row['c_name'].'</td>
-																								<td>'.$rows['title'].'</td>
-																								<td>'.$rows['email'].'</td>
-																								<td>'.$rows['phone'].'</td>
-																								<td>'.$rows['url'].'</td>
-																								
-																								
-																								<td>'.$rows['o_hr'].'</td>
-																								<td>'.$rows['c_hr'].'</td>
-																								<td>'.$rows['o_days'].'</td>
-																								
-																								<td>'.$rows['address'].'</td>
-																								
-																								<td><div class="col-md-3 col-lg-8 m-b-10">
-																								<center><img src="Res_img/'.$rows['image'].'" class="img-responsive radius"  style="min-width:150px;min-height:100px;"/></center>
-																								</div></td>
-																								
-																								<td>'.$rows['date'].'</td>
-																									 <td><a href="delete_restaurant.php?res_del='.$rows['rs_id'].'" class="btn btn-danger btn-flat btn-addon btn-xs m-b-10"><i class="fa fa-trash-o" style="font-size:16px"></i></a> 
-																									 <a href="update_restaurant.php?res_upd='.$rows['rs_id'].'" class="btn btn-info btn-flat btn-addon btn-sm m-b-10 m-l-5"><i class="fa fa-edit"></i></a>
-																									</td></tr>';
-																					 
-																						
-																						
-																		}	
-														}
-												
-											
-											?>
+<?php
+                        // Check if there are any restaurants
+                        if (empty($restaurants)) {
+                            echo '<tr><td colspan="11"><center>No Restaurants</center></td></tr>';
+                        } else {
+                            // Loop through each restaurant and display its data
+                            foreach ($restaurants as $restaurant) {
+                                echo '<tr>
+                                        <td>' . $restaurant['categoryName'] . '</td>
+                                        <td>' . $restaurant['title'] . '</td>
+                                        <td>' . $restaurant['email'] . '</td>
+                                        <td>' . $restaurant['phone'] . '</td>
+                                        <td>' . $restaurant['url'] . '</td>
+                                        <td>' . $restaurant['openHour'] . '</td>
+                                        <td>' . $restaurant['closeHour'] . '</td>
+                                        <td>' . $restaurant['workingDays'] . '</td>
+                                        <td>' . $restaurant['address'] . '</td>
+                                        <td><img src="Res_img/' . $restaurant['image'] . '" class="img-responsive radius" style="min-width:150px;min-height:100px;"/></td>
+                                        <td>' . $restaurant['date'] . '</td>
+                                        <td>
+                                            <a href="delete_restaurant.php?res_del=' . $restaurant['rs_id'] . '" class="btn btn-danger btn-flat btn-addon btn-xs m-b-10"><i class="fa fa-trash-o" style="font-size:16px"></i></a> 
+                                            <a href="update_restaurant.php?res_upd=' . $restaurant['rs_id'] . '" class="btn btn-info btn-flat btn-addon btn-sm m-b-10 m-l-5"><i class="fa fa-edit"></i></a>
+                                        </td>
+                                    </tr>';
+                            }
+                        }
+                        ?>
 
 
 

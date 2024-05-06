@@ -46,8 +46,9 @@ class Database {
         return mysqli_num_rows($result);
     }
 
-    public function fetchArray($result) {
-        return mysqli_fetch_array($result);
+    public function fetchArray($result)
+    {
+    return mysqli_fetch_array($result, MYSQLI_ASSOC);
     }
 
     public function prepare($sql) {

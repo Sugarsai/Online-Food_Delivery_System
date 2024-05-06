@@ -71,6 +71,48 @@ class OrderManager{
         }
     }
 
+    public function displayOrders(): void
+    {
+        $sql = "SELECT users.*, users_orders.* FROM users, users_orders WHERE users.u_id=users_orders.u_id ORDER BY users_orders.o_id DESC";
+        $query = $this->db->query($sql);
+
+        if ($this->db->countRows($query) > 0) {
+            while ($rows = $this->db->fetchArray($query)) {
+                $this->renderOrderRow($rows);
+            }
+        } else {
+            echo '<td colspan="8"><center>No Orders</center></td>';
+        }
+    }
+
+    private function renderOrderRow(array $order): void
+    {
+        echo '<tr>';
+        echo '<td>' . $order['username'] . '</td>';
+        echo '<td>' . $order['title'] . '</td>';
+        echo '<td>' . $order['quantity'] . '</td>';
+        echo '<td>$' . $order['price'] . '</td>';
+        echo '<td>' . $order['address'] . '</td>';
+
+        $status = $order['status'];
+        if (empty($status) || $status === "NULL") {
+            echo '<td><button type="button" class="btn btn-info"><span class="fa fa-bars" aria-hidden="true"></span> Dispatch</button></td>';
+        } elseif ($status === "in process") {
+            echo '<td><button type="button" class="btn btn-warning"><span class="fa fa-cog fa-spin" aria-hidden="true"></span> On The Way!</button></td>';
+        } elseif ($status === "closed") {
+            echo '<td><button type="button" class="btn btn-primary"><span class="fa fa-check-circle" aria-hidden="true"></span> Delivered</button></td>';
+        } elseif ($status === "rejected") {
+            echo '<td><button type="button" class="btn btn-danger"><i class="fa fa-close"></i> Cancelled</button></td>';
+        }
+
+        echo '<td>' . $order['date'] . '</td>';
+        echo '<td>';
+        echo '<a href="delete_orders.php?order_del=' . $order['o_id'] . '" onclick="return confirm(\'Are you sure?\');" class="btn btn-danger btn-flat btn-addon btn-xs m-b-10"><i class="fa fa-trash-o" style="font-size:16px"></i></a>';
+        echo '<a href="view_order.php?user_upd=' . $order['o_id'] . '" class="btn btn-info btn-flat btn-addon btn-sm m-b-10 m-l-5"><i class="fa fa-edit"></i></a>';
+        echo '</td>';
+        echo '</tr>';
+    }
+
     public function deleteOrder($orderid) {
         $mql = "DELETE FROM users_orders WHERE o_id = '$orderid'";
         $this->db->query($mql);

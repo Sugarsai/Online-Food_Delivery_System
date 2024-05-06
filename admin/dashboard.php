@@ -53,11 +53,11 @@ for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@
 
 <body class="fix-header">
 
-    <div class="preloader">
+    <!-- <div class="preloader">
         <svg class="circular" viewBox="25 25 50 50">
             <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
         </svg>
-    </div>
+    </div> -->
 
     <div id="main-wrapper">
 
@@ -185,7 +185,7 @@ for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@
                                             <span><i class="fa fa-home f-s-40 "></i></span>
                                         </div>
                                         <div class="media-body media-text-right">
-                                            <h2><?php $sql="select * from restaurant";
+                                            <h2><?php $sql="select * from shop";
 												$result=mysqli_query($db,$sql); 
 													$rws=mysqli_num_rows($result);
 													
