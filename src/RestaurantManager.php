@@ -1,8 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace MyApp;
+
 use MyApp\Database;
+
 class RestaurantManager
 {
 
@@ -16,7 +19,9 @@ class RestaurantManager
 
     public function getRestaurantId()
     {
-        return $this->restaurant_id;
+        $sql = "SELECT rs_id from shop";
+        $result = $this->db->query($sql);
+        return $result;
     }
 
     public function addRestaurant($title, $email, $phone, $url, $openHour, $closeHour, $workingDays, $image, $address, $categoryName)
@@ -24,7 +29,7 @@ class RestaurantManager
         #$categoryId = $this->getCategoryId($categoryName);
         #echo $categoryId;
         if (
-            empty($categoryName)||empty($title)||$email==''||$phone ==''||$url==''||$openHour==''||$closeHour==''||$workingDays==''||$address==''
+            empty($categoryName) || empty($title) || $email == '' || $phone == '' || $url == '' || $openHour == '' || $closeHour == '' || $workingDays == '' || $address == ''
         ) {
             return "All fields must be Required!";
         } else {
@@ -37,35 +42,33 @@ class RestaurantManager
             return true;
         }
     }
-public function getCategoryId(string $categoryName)
-{
-    $sql = "SELECT c_id FROM res_category WHERE c_name = '$categoryName'";
-    $result = $this->db->query($sql);
-    $categoryId = null;
+    public function getCategoryId(string $categoryName)
+    {
+        $sql = "SELECT c_id FROM res_category WHERE c_name = '$categoryName'";
+        $result = $this->db->query($sql);
+        $categoryId = null;
 
-    if ($result && $result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        $categoryId = $row['c_id'];
-    } 
+        if ($result && $result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $categoryId = $row['c_id'];
+        }
 
-    return $categoryId;
-}
+        return $categoryId;
+    }
 
     public function getAllRestaurants()
     {
-        // Initialize an empty array to store restaurant data
         $restaurants = [];
 
-        // Perform database query
-        $sql = "SELECT * FROM shop ORDER BY rs_id DESC";
+        $sql = "SELECT * FROM shop WHERE type=1 ORDER BY rs_id DESC";
         $query = $this->db->query($sql);
         if ($query && $query->num_rows > 0) {
             while ($row = $query->fetch_assoc()) {
-                
+
                 $categoryName = $this->getCategoryNameById($row['c_id']);
 
                 $restaurant = [
-                    'rs_id' => $row['rs_id'], 
+                    'rs_id' => $row['rs_id'],
                     'categoryName' => $categoryName,
                     'title' => $row['title'],
                     'email' => $row['email'],
@@ -89,10 +92,8 @@ public function getCategoryId(string $categoryName)
         // Perform database query to get category name
         $sql = "SELECT c_name FROM res_category WHERE c_id = '$categoryId'";
         $result = $this->db->query($sql);
-
-        // Check if the query was successful and if there is a result
+        
         if ($result && $result->num_rows > 0) {
-            // Fetch the category name from the result
             $row = $result->fetch_assoc();
             return $row['c_name'];
         } else {
@@ -100,12 +101,12 @@ public function getCategoryId(string $categoryName)
             return "Unknown Category";
         }
     }
-    // public function getCategory()
-    // {
-    //     $sql = "SELECT * FROM res_category";
-    //     $result = $this->db->query($sql);
-    //     return $result;
-    // }
+    public function getCategory()
+    {
+        $sql = "SELECT * FROM res_category";
+        $result = $this->db->query($sql);
+        return $result;
+    }
 
     public function getCategoryList()
     {
@@ -167,6 +168,44 @@ public function getCategoryId(string $categoryName)
                             <strong>Error adding category!</strong>
                         </div>';
             }
+        }
+    }
+    public function deleteRestaurant($G_ID)
+    {
+        $mql = "DELETE FROM shop WHERE rs_id = '$G_ID'";
+        $this->db->query($mql);
+        header("location:all_restaurant.php");
+    }
+    // 
+
+    public function deleteRelatedMenu($restaurantID)
+    {
+        $query = "DELETE FROM dishes WHERE rs_id = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([$restaurantID]);
+    }
+    public function updateRestaurant($restaurantID, $title, $email, $phone, $url, $openHour, $closeHour, $workingDays, $image, $address, $categoryName)
+    {
+        if (
+            empty($categoryName) || empty($title) || $email == '' || $phone == '' || $url == '' || $openHour == '' || $closeHour == '' || $workingDays == '' || $address == ''
+        ) {
+            return "All fields must be Required!";
+        } else {
+            $sql = "UPDATE shop SET 
+                    c_id = '$categoryName',
+                    title = '$title',
+                    email = '$email',
+                    phone = '$phone',
+                    url = '$url',
+                    o_hr = '$openHour',
+                    c_hr = '$closeHour',
+                    o_days = '$workingDays',
+                    address = '$address',
+                    image = '$image'
+                    WHERE rs_id = '$restaurantID'";
+            $this->db->query($sql);
+
+            return true;
         }
     }
 }
