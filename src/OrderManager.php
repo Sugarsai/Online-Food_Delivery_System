@@ -1,35 +1,44 @@
-<?php 
+<?php
+
 declare(strict_types=1);
 
 namespace MyApp;
+
 use MyApp\Database;
 
-class OrderManager{
+class OrderManager
+{
     private static ?OrderManager $instance = null;
     private Database $db;
 
     private $order_id;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->db = Database::getInstance();
     }
 
-    public static function getInstance(): OrderManager {
+    public static function getInstance(): OrderManager
+    {
         if (self::$instance === null) {
             self::$instance = new OrderManager();
         }
         return self::$instance;
     }
 
-    public function getorder_id() {
+    public function getorder_id()
+    {
         return $this->order_id;
     }
-    public function addOrder(string $product, string $quantity, string $price, string $total, string $date): bool|string {
-        if (empty($product) || 
-            empty($quantity) || 
-            empty($price) ||  
+    public function addOrder(string $product, string $quantity, string $price, string $total, string $date): bool|string
+    {
+        if (
+            empty($product) ||
+            empty($quantity) ||
+            empty($price) ||
             empty($total) ||
-            empty($date)) {
+            empty($date)
+        ) {
             return "All fields must be Required!";
         } else {
             $mql = "INSERT INTO orders(product, quantity, price, total, date) 
@@ -38,15 +47,16 @@ class OrderManager{
             return true;
         }
     }
-    
-    public function getUserOrders(int $user_id) {
+
+    public function getUserOrders(int $user_id)
+    {
         $query = "SELECT * FROM users_orders WHERE u_id = $user_id";
         $result = $this->db->query($query);
         return $result;
-        
     }
-    
-    public function getOrders(): array {
+
+    public function getOrders(): array
+    {
         $query = "SELECT * FROM orders";
         $result = $this->db->query($query);
         $orders = [];
@@ -57,12 +67,15 @@ class OrderManager{
     }
 
 
-    public function updateOrder(int $id, string $product, string $quantity, string $price, string $total, string $date): bool|string {
-        if (empty($product) || 
-            empty($quantity) || 
-            empty($price) ||  
+    public function updateOrder(int $id, string $product, string $quantity, string $price, string $total, string $date): bool|string
+    {
+        if (
+            empty($product) ||
+            empty($quantity) ||
+            empty($price) ||
             empty($total) ||
-            empty($date)) {
+            empty($date)
+        ) {
             return "All fields must be Required!";
         } else {
             $mql = "UPDATE orders SET product = '$product', quantity = '$quantity', price = '$price', total = '$total', date = '$date' WHERE id = $id";
@@ -113,9 +126,21 @@ class OrderManager{
         echo '</tr>';
     }
 
-    public function deleteOrder($orderid) {
+    public function deleteOrder($orderid)
+    {
         $mql = "DELETE FROM users_orders WHERE o_id = '$orderid'";
         $this->db->query($mql);
-        header("location:your_orders.php"); 
+        header("location:your_orders.php");
+    }
+
+    public function addCoupon($code, $amount, $shopId)
+    {
+        if (empty($code) || empty($amount) || empty($shopId)) {
+            return "All fields must be required!";
+        } else {
+            $sql = "UPDATE shop SET coupon='$code', c_amount='$amount' WHERE rs_id=$shopId";
+            $this->db->query($sql);
+            return true;
+        }
     }
 }
