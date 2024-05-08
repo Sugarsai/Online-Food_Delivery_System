@@ -9,7 +9,7 @@ class Database {
     private $username = "root";
     private $password = "Refaat";
     private $dbname = "ordersystem";
-    public function __construct() {
+    private function __construct() {
         try {
             $this->conn = new \mysqli($this->localhost, $this->username, $this->password, $this->dbname);
             #echo "Connected Successfully";
@@ -48,9 +48,10 @@ class Database {
 
     public function fetchArray($result)
     {
-    return mysqli_fetch_array($result, MYSQLI_ASSOC);
+    return mysqli_fetch_array($result);
     }
 
+    
     public function prepare($sql) {
         return mysqli_prepare($this->conn, $sql);
     }

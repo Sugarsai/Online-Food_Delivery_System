@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php
-include("connection/connect.php");
+$item_total = 0;
+foreach ($_SESSION["cart_item"] as $item) {
+    $item_total += ($item["price"] * $item["quantity"]);
+}
+
 include_once 'product-action.php';
-error_reporting(0);
+require_once 'vendor/autoload.php';
+
 session_start();
 
-
+use MyApp\OrderManager;
 function function_alert() { 
       
 
@@ -14,38 +19,33 @@ function function_alert() {
     echo "<script>window.location.replace('your_orders.php');</script>"; 
 } 
 
-if(empty($_SESSION["user_id"]))
-{
-	header('location:login.php');
+
+
+$orderManager = new OrderManager(); // Create an instance of OrderManager
+
+if(isset($_POST['submit'])) {
+    $couponCode = $_POST['coupon'];
+
+    // Calculate total price of the order
+    $item_total = 0;
+    foreach ($_SESSION["cart_item"] as $item) {
+        $item_total += ($item["price"] * $item["quantity"]);
+    }
+
+    // Apply coupon and get discounted price
+    $totalPrice = $orderManager->applyCoupon($couponCode, $item_total);
+
+    // Place the order
+    foreach ($_SESSION["cart_item"] as $item) {
+        $orderManager->placeOrder($_SESSION["user_id"], $item["title"], $item["quantity"], $totalPrice);
+    }
+
+    // Clear cart items
+    unset($_SESSION["cart_item"]);
+
+    $success = "Thank you. Your order has been placed!";
+    function_alert();
 }
-else{
-
-										  
-												foreach ($_SESSION["cart_item"] as $item)
-												{
-											
-												$item_total += ($item["price"]*$item["quantity"]);
-												
-													if($_POST['submit'])
-													{
-						
-													$SQL="insert into users_orders(u_id,title,quantity,price) values('".$_SESSION["user_id"]."','".$item["title"]."','".$item["quantity"]."','".$item["price"]."')";
-						
-														mysqli_query($db,$SQL);
-														
-                                                        
-                                                        unset($_SESSION["cart_item"]);
-                                                        unset($item["title"]);
-                                                        unset($item["quantity"]);
-                                                        unset($item["price"]);
-														$success = "Thank you. Your order has been placed!";
-
-                                                        function_alert();
-
-														
-														
-													}
-												}
 ?>
 
 
@@ -170,6 +170,15 @@ else{
                                                             <td>Free</td>
                                                         </tr>
                                                         <tr>
+                                                        <div class="col-sm-12">
+                                                            
+                    <div class="form-group">
+        <label for="coupon">Coupon Code:</label>
+        <input type="text" class="form-control" id="coupon" name="coupon">
+        </div>
+    </div>
+                                                        </tr>
+                                                        <tr>
                                                             <td class="text-color"><strong>Total</strong></td>
                                                             <td class="text-color"><strong> <?php echo "$".$item_total; ?></strong></td>
                                                         </tr>
@@ -236,7 +245,7 @@ else{
                         for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@gmail.com  
                         Visit My Website : developerrony.com -->
 <?php
-}
+
 ?>
 <!--  Author Name: MH RONY.
 GigHub Link: https://github.com/dev-mhrony

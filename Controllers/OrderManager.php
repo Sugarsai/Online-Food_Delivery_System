@@ -143,4 +143,25 @@ class OrderManager
             return true;
         }
     }
+
+    public function applyCoupon($couponCode, $totalPrice) {
+        $discountAmount = 0;
+
+        $couponQuery = "SELECT * FROM shop WHERE coupon = '$couponCode'";
+        $couponResult = $this->db->query($couponQuery);
+
+        if(mysqli_num_rows($couponResult) > 0) {
+            $couponData = mysqli_fetch_assoc($couponResult);
+            $discountAmount = $couponData['c_amount'];
+        }
+
+        $totalPrice -= $discountAmount;
+
+        return $totalPrice;
+    }
+
+    public function placeOrder($userId, $title, $quantity, $price) {
+        $SQL="insert into users_orders(u_id,title,quantity,price) values('$userId','$title','$quantity','$price')";
+        $this->db->query($SQL);
+    }
 }

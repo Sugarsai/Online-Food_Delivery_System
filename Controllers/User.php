@@ -7,7 +7,7 @@ class User {
     private $db;
 
     public function __construct() {
-        $this->db = new Database();
+        $this->db = Database::getInstance();
     }
 
     public function registerUser(string $username, string $firstname, string $lastname, string $email, string $phone, string $password, string $address): bool|string {

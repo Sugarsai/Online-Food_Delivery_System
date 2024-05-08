@@ -14,7 +14,7 @@ class GroceryManager
 
     public function __construct()
     {
-        $this->db = new Database();
+        $this->db = Database::getInstance();
     }
 
     public function getGroceryId()

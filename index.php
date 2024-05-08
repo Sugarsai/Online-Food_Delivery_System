@@ -305,7 +305,7 @@ session_start();
 
 
                     <?php  
-						$ress= mysqli_query($db,"select * from restaurant");  
+						$ress= mysqli_query($db,"select * from shop");  
 									      while($rows=mysqli_fetch_array($ress))
 										  {
 													

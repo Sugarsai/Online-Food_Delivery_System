@@ -1,10 +1,10 @@
-<!--  Author Name: MH RONY.
-                        GigHub Link: https://github.com/dev-mhrony
-                        Facebook Link:https://www.facebook.com/dev.mhrony
-                        Youtube Link: https://www.youtube.com/channel/UChYhUxkwDNialcxj-OFRcDw
-                        for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@gmail.com  
-                        Visit My Website : developerrony.com -->
-<!DOCTYPE html>
+<!-- Author Name: MH RONY.
+    GigHub Link: https://github.com/dev-mhrony
+    Facebook Link: https://www.facebook.com/dev.mhrony
+    Youtube Link: https://www.youtube.com/channel/UChYhUxkwDNialcxj-OFRcDw
+    For any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@gmail.com
+    Visit My Website: developerrony.com -->
+    <!DOCTYPE html>
 <html lang="en">
 <?php
 include 'vendor/autoload.php';
@@ -12,12 +12,12 @@ include 'connection/connect.php';
 use MyApp\RestaurantManager;
 session_start();
 ?>
-<!--  Author Name: MH RONY.
-                        GigHub Link: https://github.com/dev-mhrony
-                        Facebook Link:https://www.facebook.com/dev.mhrony
-                        Youtube Link: https://www.youtube.com/channel/UChYhUxkwDNialcxj-OFRcDw
-                        for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@gmail.com  
-                        Visit My Website : developerrony.com -->
+<!-- Author Name: MH RONY.
+    GigHub Link: https://github.com/dev-mhrony
+    Facebook Link: https://www.facebook.com/dev.mhrony
+    Youtube Link: https://www.youtube.com/channel/UChYhUxkwDNialcxj-OFRcDw
+    For any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@gmail.com
+    Visit My Website: developerrony.com -->
 
 <head>
     <meta charset="utf-8">
@@ -32,6 +32,12 @@ session_start();
     <link href="css/animsition.min.css" rel="stylesheet">
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+    <style>
+        .entry-logo img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
 </head>
 
 <body>
@@ -39,12 +45,16 @@ session_start();
     <header id="header" class="header-scroll top-header headrom">
         <nav class="navbar navbar-dark">
             <div class="container">
-                <button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse" data-target="#mainNavbarCollapse">&#9776;</button>
-                <a class="navbar-brand" href="index.php"> <img class="img-rounded" src="images/logo.png" alt="" width="18%"> </a>
+                <button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse"
+                    data-target="#mainNavbarCollapse">&#9776;</button>
+                <a class="navbar-brand" href="index.php"> <img class="img-rounded" src="images/logo.png" alt=""
+                        width="18%"> </a>
                 <div class="collapse navbar-toggleable-md  float-lg-right" id="mainNavbarCollapse">
                     <ul class="nav navbar-nav">
-                        <li class="nav-item"> <a class="nav-link active" href="index.php">Home <span class="sr-only">(current)</span></a> </li>
-                        <li class="nav-item"> <a class="nav-link active" href="restaurants.php">Restaurants <span class="sr-only"></span></a> </li>
+                        <li class="nav-item"> <a class="nav-link active" href="index.php">Home <span
+                                    class="sr-only">(current)</span></a> </li>
+                        <li class="nav-item"> <a class="nav-link active" href="restaurants.php">Restaurants <span
+                                    class="sr-only"></span></a> </li>
 
                         <?php
 						if(empty($_SESSION["user_id"]))
@@ -61,12 +71,12 @@ session_start();
 							}
 
 						?>
-                        <!--  Author Name: MH RONY.
+                        <!-- Author Name: MH RONY.
                         GigHub Link: https://github.com/dev-mhrony
-                        Facebook Link:https://www.facebook.com/dev.mhrony
+                        Facebook Link: https://www.facebook.com/dev.mhrony
                         Youtube Link: https://www.youtube.com/channel/UChYhUxkwDNialcxj-OFRcDw
-                        for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@gmail.com  
-                        Visit My Website : developerrony.com -->
+                        For any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@gmail.com
+                        Visit My Website: developerrony.com -->
 
                     </ul>
                 </div>
@@ -77,9 +87,10 @@ session_start();
         <div class="top-links">
             <div class="container">
                 <ul class="row links">
-
-                    <li class="col-xs-12 col-sm-4 link-item active"><span>1</span><a href="#">Choose Restaurant</a></li>
-                    <li class="col-xs-12 col-sm-4 link-item"><span>2</span><a href="#">Pick Your favorite food</a></li>
+                    <li class="col-xs-12 col-sm-4 link-item active"><span>1</span><a href="#">Choose Restaurant</a>
+                    </li>
+                    <li class="col-xs-12 col-sm-4 link-item"><span>2</span><a href="#">Pick Your favorite food</a>
+                    </li>
                     <li class="col-xs-12 col-sm-4 link-item"><span>3</span><a href="#">Order and Pay</a></li>
                 </ul>
             </div>
@@ -93,52 +104,69 @@ session_start();
                 </div>
             </div>
         </div>
-        <!--  Author Name: MH RONY.
+        <!-- Author Name: MH RONY.
                         GigHub Link: https://github.com/dev-mhrony
-                        Facebook Link:https://www.facebook.com/dev.mhrony
+                        Facebook Link: https://www.facebook.com/dev.mhrony
                         Youtube Link: https://www.youtube.com/channel/UChYhUxkwDNialcxj-OFRcDw
-                        for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@gmail.com  
-                        Visit My Website : developerrony.com -->
+                        For any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@gmail.com
+                        Visit My Website: developerrony.com -->
 
         <section class="restaurants-page">
             <div class="container">
+            <div class="top-search" style="margin: 10px;" >
+    <form action="search.php" method="get" name="searchForm">
+        <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-search"></i></span>
+            <input type="text" class="form-control" name="searchQuery" placeholder="Search" aria-label="Search" required>
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button" onclick="clearSearch()">
+                    <i class="fa fa-times"></i>
+                </button>
+            </span>
+        </div>
+    </form>
+</div>
                 <div class="row">
                     <div class="col-xs-12 col-sm-5 col-md-5 col-lg-3">
                     </div>
                     <div class="col-xs-12 col-sm-7 col-md-7 col-lg-9">
                         <div class="bg-gray restaurant-entry">
                             <div class="row">
-                                <?php 
-                                            $restaurant = new RestaurantManager();
-                                            $ress = $restaurant->getAllRestaurants();
-                                            foreach($ress as $rows)
-										  {
-													
-						
-													 echo' <div class="col-sm-12 col-md-12 col-lg-8 text-xs-center text-sm-left">
-															<div class="entry-logo">
-																<a class="img-fluid" href="dishes.php?res_id='.$rows['rs_id'].'" > <img src="admin/Res_img/'.$rows['image'].'" alt="Food logo"></a>
-															</div>
-															<!-- end:Logo -->
-															<div class="entry-dscr">
-																<h5><a href="dishes.php?res_id='.$rows['rs_id'].'" >'.$rows['title'].'</a></h5> <span>'.$rows['address'].'</span>
-																
-															</div>
-															<!-- end:Entry description -->
-														</div>
-														
-														 <div class="col-sm-12 col-md-12 col-lg-4 text-xs-center">
-																<div class="right-content bg-white">
-																	<div class="right-review">
-																		
-																		<a href="dishes.php?res_id='.$rows['rs_id'].'" class="btn btn-purple">View Menu</a> </div>
-																</div>
-																<!-- end:right info -->
-															</div>';
-										  }
-						
-						
-						?>
+                            <?php 
+                $restaurant = new RestaurantManager();
+                $ress = $restaurant->getAllRestaurants();
+            foreach($ress as $rows) {
+            echo '<div class="col-sm-12 col-md-12 col-lg-8 text-xs-center text-sm-left">
+            <div class="entry-logo">
+                <a class="img-fluid" href="dishes.php?res_id='.$rows['rs_id'].'"> <img src="admin/Res_img/'.$rows['image'].'" alt="Food logo"></a>
+            </div>
+            <div class="entry-dscr">
+                <h5><a href="dishes.php?res_id='.$rows['rs_id'].'">'.$rows['title'].'</a></h5> 
+                <span>'.$rows['address'].'</span>';
+                
+                $rating = $restaurant->getRestaurantRating($rows['rs_id']);
+                echo '<div class="star-rating">';
+                        for ($i = 1; $i <= 5; $i++) {
+                            if ($i <= $rating) {
+                                echo '<span class="fa fa-star checked" style="color: gold;"></span>';
+                            } else {
+                                echo '<span class="fa fa-star" style="color: gray;"></span>';
+                            }
+                        }
+                echo '</div>
+            </div>
+        </div>'; 
+    echo '<div class="col-sm-12 col-md-12 col-lg-4 text-xs-center">
+            <div class="right-content bg-white">
+                <div class="right-review">
+                    <a href="dishes.php?res_id='.$rows['rs_id'].'" class="btn btn-purple">View Menu</a>
+                </div>
+            </div>
+            <!-- end:right info -->
+        </div>';
+}
+?>
+
 
                             </div>
 
@@ -149,12 +177,12 @@ session_start();
                     </div>
 
 
-                    <!--  Author Name: MH RONY.
+                    <!-- Author Name: MH RONY.
                         GigHub Link: https://github.com/dev-mhrony
-                        Facebook Link:https://www.facebook.com/dev.mhrony
+                        Facebook Link: https://www.facebook.com/dev.mhrony
                         Youtube Link: https://www.youtube.com/channel/UChYhUxkwDNialcxj-OFRcDw
-                        for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@gmail.com  
-                        Visit My Website : developerrony.com -->
+                        For any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@gmail.com
+                        Visit My Website: developerrony.com -->
 
                 </div>
             </div>
@@ -162,6 +190,16 @@ session_start();
     </section>
 
     <?php include "include/footer.php" ?>
+    <script>
+// Clear the search input when the clear button is clicked
+function clearSearch() {
+    document.getElementsByName('searchQuery')[0].value = '';
+}
+</script>
+
+
+
+    
 
     <script src="js/jquery.min.js"></script>
     <script src="js/tether.min.js"></script>
@@ -172,11 +210,11 @@ session_start();
     <script src="js/headroom.js"></script>
     <script src="js/foodpicky.min.js"></script>
 </body>
-<!--  Author Name: MH RONY.
+<!-- Author Name: MH RONY.
                         GigHub Link: https://github.com/dev-mhrony
-                        Facebook Link:https://www.facebook.com/dev.mhrony
+                        Facebook Link: https://www.facebook.com/dev.mhrony
                         Youtube Link: https://www.youtube.com/channel/UChYhUxkwDNialcxj-OFRcDw
-                        for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@gmail.com  
-                        Visit My Website : developerrony.com -->
+                        For any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@gmail.com
+                        Visit My Website: developerrony.com -->
 
 </html>
