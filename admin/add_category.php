@@ -112,7 +112,7 @@ if ($result) {
                             </ul>
                         </li>
                         <li> <a href="all_orders.php"><i class="fa fa-shopping-cart" aria-hidden="true"></i><span>Orders</span></a></li>
-
+                        <li><a href="coupon.php"><i class="fa fa-ticket f-s-20 color-warning"></i><span>Coupons</span></a></li>
                     </ul>
                 </nav>
 
