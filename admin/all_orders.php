@@ -10,12 +10,13 @@ for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@
                 <!DOCTYPE html>
                 <html lang="en">
                 <?php
-include("../vendor/autoload.php");
-use MyApp\OrderManager;
+                include("../vendor/autoload.php");
 
-session_start();
+                use MyApp\OrderManager;
 
-?>
+                session_start();
+
+                ?>
                 <!-- /*!
 * Author Name: MH RONY.
 * GigHub Link: https://github.com/dev-mhrony
@@ -155,6 +156,16 @@ for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@
 
                                             </ul>
                                         </li>
+                                        <li>
+                                            <a class="has-arrow" href="#" aria-expanded="false">
+                                                <i class="fa fa-archive f-s-20 color-warning"></i>
+                                                <span class="hide-menu">Grocery</span>
+                                            </a>
+                                            <ul aria-expanded="false" class="collapse">
+                                                <li><a href="add_grocery.php">Add Grocery</a></li>
+                                                <li><a href="all_groceries.php">All Groceries</a></li>
+                                            </ul>
+                                        </li>
                                         <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-cutlery" aria-hidden="true"></i><span class="hide-menu">Menu</span></a>
                                             <ul aria-expanded="false" class="collapse">
                                                 <li><a href="all_menu.php">All Menues</a></li>
@@ -227,11 +238,11 @@ for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@
                                                         <tbody>
 
 
-<?php
+                                                            <?php
 
-$orders = new OrderManager();
-$orders->displayOrders();
-?>
+                                                            $orders = new OrderManager();
+                                                            $orders->displayOrders();
+                                                            ?>
 
                                                         </tbody>
                                                     </table>

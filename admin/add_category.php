@@ -1,6 +1,7 @@
 <?php
 include '../connection/connect.php';
 include "../vendor/autoload.php";
+
 use MyApp\RestaurantManager;
 
 session_start();
@@ -22,6 +23,7 @@ if ($result) {
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -91,6 +93,16 @@ if ($result) {
 
                             </ul>
                         </li>
+                        <li>
+                            <a class="has-arrow" href="#" aria-expanded="false">
+                                <i class="fa fa-archive f-s-20 color-warning"></i>
+                                <span class="hide-menu">Grocery</span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse">
+                                <li><a href="add_grocery.php">Add Grocery</a></li>
+                                <li><a href="all_groceries.php">All Groceries</a></li>
+                            </ul>
+                        </li>
                         <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-cutlery" aria-hidden="true"></i><span class="hide-menu">Menu</span></a>
                             <ul aria-expanded="false" class="collapse">
                                 <li><a href="all_menu.php">All Menues</a></li>
@@ -100,7 +112,7 @@ if ($result) {
                             </ul>
                         </li>
                         <li> <a href="all_orders.php"><i class="fa fa-shopping-cart" aria-hidden="true"></i><span>Orders</span></a></li>
-                        
+
                     </ul>
                 </nav>
 
@@ -119,9 +131,9 @@ if ($result) {
 
                     <div class="container-fluid">
 
-                        <?php  
-						echo $error;
-						echo $success; ?>
+                        <?php
+                        echo $error;
+                        echo $success; ?>
 
                         <div class="col-lg-12">
                             <div class="card card-outline-primary">
@@ -130,7 +142,7 @@ if ($result) {
                                 </div>
                                 <form action='' method='post'>
                                     <div class="form-body">
-                                       
+
                                         <hr>
                                         <div class="row p-t-20">
                                             <div class="col-md-12">
@@ -172,13 +184,13 @@ if ($result) {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                       
+
 
                                         <?php
-                                            $categoryList = $catergory->getCategoryList();
-                                            echo $categoryList;
+                                        $categoryList = $catergory->getCategoryList();
+                                        echo $categoryList;
                                         ?>
-												
+
                                     </tbody>
                                 </table>
                             </div>
@@ -187,7 +199,7 @@ if ($result) {
                 </div>
 
 
-               
+
 
 
 

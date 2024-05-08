@@ -10,19 +10,24 @@ for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@
                 <!DOCTYPE html>
                 <html lang="en">
                 <?php
-include "../vendor/autoload.php";
-use MyApp\RestaurantManager;
+                include "../vendor/autoload.php";
+
+                use MyApp\RestaurantManager;
 
 
 
-$restaurantManager = new RestaurantManager();
+                $restaurantManager = new RestaurantManager();
 
+                $restaurants = $restaurantManager->getAllRestaurants();
+                if (isset($_GET['delete_restaurant'])) {
+                    $restaurantID = $_GET['delete_restaurant'];
+                    $restaurantManager->deleteRelatedMenu($restaurantID);
+                    $restaurantManager->deleteRestaurant($restaurantID);
+                }
 
-$restaurants = $restaurantManager->getAllRestaurants();
+                session_start();
 
-session_start();
-
-?>
+                ?>
                 <!-- /*!
 * Author Name: MH RONY.
 * GigHub Link: https://github.com/dev-mhrony
@@ -170,6 +175,16 @@ for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@
 
                                             </ul>
                                         </li>
+                                        <li>
+                                            <a class="has-arrow" href="#" aria-expanded="false">
+                                                <i class="fa fa-archive f-s-20 color-warning"></i>
+                                                <span class="hide-menu">Grocery</span>
+                                            </a>
+                                            <ul aria-expanded="false" class="collapse">
+                                                <li><a href="add_grocery.php">Add Grocery</a></li>
+                                                <li><a href="all_groceries.php">All Groceries</a></li>
+                                            </ul>
+                                        </li>
                                         <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-cutlery" aria-hidden="true"></i><span class="hide-menu">Menu</span></a>
                                             <ul aria-expanded="false" class="collapse">
                                                 <li><a href="all_menu.php">All Menues</a></li>
@@ -259,14 +274,14 @@ for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@
 
 */ -->
 
-<?php
-                        // Check if there are any restaurants
-                        if (empty($restaurants)) {
-                            echo '<tr><td colspan="11"><center>No Restaurants</center></td></tr>';
-                        } else {
-                            // Loop through each restaurant and display its data
-                            foreach ($restaurants as $restaurant) {
-                                echo '<tr>
+                                                            <?php
+                                                            // Check if there are any restaurants
+                                                            if (empty($restaurants)) {
+                                                                echo '<tr><td colspan="11"><center>No Restaurants</center></td></tr>';
+                                                            } else {
+                                                                // Loop through each restaurant and display its data
+                                                                foreach ($restaurants as $restaurant) {
+                                                                    echo '<tr>
                                         <td>' . $restaurant['categoryName'] . '</td>
                                         <td>' . $restaurant['title'] . '</td>
                                         <td>' . $restaurant['email'] . '</td>
@@ -278,16 +293,20 @@ for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@
                                         <td>' . $restaurant['address'] . '</td>
                                         <td><img src="Res_img/' . $restaurant['image'] . '" class="img-responsive radius" style="min-width:150px;min-height:100px;"/></td>
                                         <td>' . $restaurant['date'] . '</td>
-                                        <td>
-                                            <a href="delete_restaurant.php?res_del=' . $restaurant['rs_id'] . '" class="btn btn-danger btn-flat btn-addon btn-xs m-b-10"><i class="fa fa-trash-o" style="font-size:16px"></i></a> 
-                                            <a href="update_restaurant.php?res_upd=' . $restaurant['rs_id'] . '" class="btn btn-info btn-flat btn-addon btn-sm m-b-10 m-l-5"><i class="fa fa-edit"></i></a>
-                                        </td>
-                                    </tr>';
-                            }
-                        }
-                        ?>
+                                        <td>';
+                                                                    echo '<button class="btn btn-danger btn-xs m-b-10" onclick="confirmDelete(' . $restaurant['rs_id'] . ');">Delete</button>
+                                        <a href="update_restaurant.php?restaurant_upd=' . $restaurant['rs_id'] . '" class="btn btn-info btn-xs m-b-10 m-l-5"><i class="fa fa-edit"></i> Edit</a>';
+                                                                }
+                                                            }
+                                                            ?>
 
-
+                                                            <script>
+                                                                function confirmDelete(RestaurantID) {
+                                                                    if (confirm('Are you sure you want to delete this restaurant?')) {
+                                                                        window.location.href = 'all_restaurant.php?delete_restaurant=' + RestaurantID;
+                                                                    }
+                                                                }
+                                                            </script>
 
                                                             <!-- /*!
 * Author Name: MH RONY.

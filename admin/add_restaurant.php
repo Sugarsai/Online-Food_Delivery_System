@@ -8,7 +8,8 @@ for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@
 
 */ -->
 
-<?php
+                <?php
+                
                 include "../vendor/autoload.php";
                 use MyApp\RestaurantManager;
 
@@ -38,9 +39,10 @@ for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@
                     $store = "Res_img/" . basename($fnew);
                     if ($extension == 'jpg' || $extension == 'png' || $extension == 'jpeg') {
                         if ($fsize >= 1000000) {
-                            $error = '<div class="alert alert-danger alert-dismissible fade show">';}
+                            $error = '<div class="alert alert-danger alert-dismissible fade show">';
                         }
-                    
+                    }
+
 
                     // Call the addRestaurant method of the RestaurantManager class
                     $result = $restaurant->addRestaurant($title, $email, $phone, $url, $openHour, $closeHour, $workingDays, $fnew, $address, $categoryName);
@@ -59,7 +61,7 @@ for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@
                     }
                 }
                 ?>
-<!DOCTYPE html>
+                <!DOCTYPE html>
                 <html lang="en">
 
                 <!-- /*!
@@ -199,6 +201,16 @@ for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@
 
 */ -->
 
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <a class="has-arrow" href="#" aria-expanded="false">
+                                                <i class="fa fa-archive f-s-20 color-warning"></i>
+                                                <span class="hide-menu">Grocery</span>
+                                            </a>
+                                            <ul aria-expanded="false" class="collapse">
+                                                <li><a href="add_grocery.php">Add Grocery</a></li>
+                                                <li><a href="all_groceries.php">All Groceries</a></li>
                                             </ul>
                                         </li>
                                         <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-cutlery" aria-hidden="true"></i><span class="hide-menu">Menu</span></a>
@@ -421,7 +433,7 @@ for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@
                                                                 <label class="control-label">Select Category</label>
                                                                 <select name="c_name" class="form-control custom-select" data-placeholder="Choose a Category" tabindex="1">
                                                                     <option>--Select Category--</option>
-                                                                    <?php 
+                                                                    <?php
                                                                     $res = $restaurant->getCategory();
                                                                     while ($row = mysqli_fetch_array($res)) {
                                                                         echo ' <option value="' . $row['c_id'] . '">' . $row['c_name'] . '</option>';;

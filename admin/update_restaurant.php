@@ -10,111 +10,67 @@ for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@
                 <!DOCTYPE html>
                 <html lang="en">
                 <?php
-include("../connection/connect.php");
-error_reporting(0);
-session_start();
 
+                include "../vendor/autoload.php";
 
+                use MyApp\RestaurantManager;
 
+                session_start();
+                $error = "";
+                $success = "";
 
-if(isset($_POST['submit']))        
-{
-	
-			
-		
-			
-		  
-		
-		
-		if(empty($_POST['c_name'])||empty($_POST['res_name'])||$_POST['email']==''||$_POST['phone']==''||$_POST['url']==''||$_POST['o_hr']==''||$_POST['c_hr']==''||$_POST['o_days']==''||$_POST['address']=='')
-		{	
-											$error = 	'<div class="alert alert-danger alert-dismissible fade show">
-																<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-																<strong>All fields Must be Fillup!</strong>
-															</div>';
-									
-		
-								
-		}
-	else
-		{
-		
-				$fname = $_FILES['file']['name'];
-								$temp = $_FILES['file']['tmp_name'];
-								$fsize = $_FILES['file']['size'];
-								$extension = explode('.',$fname);
-								$extension = strtolower(end($extension));  
-								$fnew = uniqid().'.'.$extension;
-   
-								$store = "Res_img/".basename($fnew);                   
-	
-					if($extension == 'jpg'||$extension == 'png'||$extension == 'gif' )
-					{        
-									if($fsize>=1000000)
-										{
-		
-		
-												$error = 	'<div class="alert alert-danger alert-dismissible fade show">
-																<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-																<strong>Max Image Size is 1024kb!</strong> Try different Image.
-															</div>';
-	   
-										}
-		
-									else
-										{
-												
-												
-												$res_name=$_POST['res_name'];
-				                                 
-												$sql = "update restaurant set c_id='$_POST[c_name]', title='$res_name',email='$_POST[email]',phone='$_POST[phone]',url='$_POST[url]',o_hr='$_POST[o_hr]',c_hr='$_POST[c_hr]',o_days='$_POST[o_days]',address='$_POST[address]',image='$fnew' where rs_id='$_GET[res_upd]' ";  // store the submited data ino the database :images												mysqli_query($db, $sql); 
-													mysqli_query($db, $sql); 
-												move_uploaded_file($temp, $store);
-			  
-													$success = 	'<div class="alert alert-success alert-dismissible fade show">
-																<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-																<strong>Record Updated!</strong>.
-															</div>';
-                
-	
-										}
-					}
-					elseif($extension == '')
-					{
-						$error = 	'<div class="alert alert-danger alert-dismissible fade show">
-																<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-																<strong>select image</strong>
-															</div>';
-					}
-					else{
-					
-											$error = 	'<div class="alert alert-danger alert-dismissible fade show">
-																<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-																<strong>invalid extension!</strong>png, jpg, Gif are accepted.
-															</div>';
-						
-	   
-						}               
-	   
-	   
-	   }
+                $restaurantManager = new RestaurantManager();
 
+                if (isset($_POST['submit'])) {
+                    $fname = $_FILES['file']['name'];
+                    $temp = $_FILES['file']['tmp_name'];
+                    $fsize = $_FILES['file']['size'];
+                    $extension = pathinfo($fname, PATHINFO_EXTENSION);
+                    $fnew = uniqid() . '.' . $extension;
+                    $store = "Res_img/" . basename($fnew);
 
+                    if (in_array($extension, ['jpg', 'png', 'gif'])) {
+                        if ($fsize >= 1000000) {
+                            $error = '<div class="alert alert-danger alert-dismissible fade show">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <strong>Max Image Size is 1024kb!</strong> Try different Image.
+                                </div>';
+                        } else {
+                            $res_name = $_POST['res_name'];
+                            $result = $restaurantManager->updateRestaurant($_GET['res_upd'], $_POST['c_name'], $res_name, $_POST['email'], $_POST['phone'], $_POST['url'], $_POST['o_hr'], $_POST['c_hr'], $_POST['o_days'], $_POST['address'], $fnew, $temp, $store);
 
-	
-	
-	
-
-}
+                            if ($result) {
+                                $success = '<div class="alert alert-success alert-dismissible fade show">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <strong>Record Updated!</strong>.
+                                    </div>';
+                            } else {
+                                $error = '<div class="alert alert-danger alert-dismissible fade show">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <strong>Error updating record!</strong>
+                                    </div>';
+                            }
+                        }
+                    } elseif ($extension == '') {
+                        $error = '<div class="alert alert-danger alert-dismissible fade show">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <strong>Select an image</strong>
+                            </div>';
+                    } else {
+                        $error = '<div class="alert alert-danger alert-dismissible fade show">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <strong>Invalid extension!</strong> PNG, JPG, GIF are accepted.
+                            </div>';
+                    }
+                }
+                ?>
 
 
 
 
 
 
-
-
-?>
+                ?>
                 <!-- /*!
 * Author Name: MH RONY.
 * GigHub Link: https://github.com/dev-mhrony
@@ -148,11 +104,11 @@ for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@
 */ -->
 
                 <body class="fix-header">
-                    <div class="preloader">
+                    <!-- <div class="preloader">
                         <svg class="circular" viewBox="25 25 50 50">
                             <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
                         </svg>
-                    </div>
+                    </div> -->
                     <div id="main-wrapper">
 
                         <div class="header">
@@ -328,8 +284,8 @@ for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@
 
 
 
-                                <?php  echo $error;
-									        echo $success; ?>
+                                <?php echo $error;
+                                echo $success; ?>
 
 
 
@@ -342,9 +298,16 @@ for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@
                                         <div class="card-body">
                                             <form action='' method='post' enctype="multipart/form-data">
                                                 <div class="form-body">
-                                                    <?php $ssql ="select * from restaurant where rs_id='$_GET[res_upd]'";
-													$res=mysqli_query($db, $ssql); 
-													$row=mysqli_fetch_array($res);?>
+                                                    <?php
+                                                    $restaurantManager = new RestaurantManager();
+
+                                                    $restaurantIds = $restaurantManager->getRestaurantId();
+
+                                                    while ($row = $restaurantIds->fetch_assoc()) {
+                                                        echo '<option value="' . $row['rs_id'] . '">' . $row['rs_id'] . '</option>';
+                                                    }
+                                                    ?>
+
                                                     <hr>
                                                     <div class="row p-t-20">
                                                         <div class="col-md-6">
@@ -467,14 +430,14 @@ for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@
                                                                 <label class="control-label">Select Category</label>
                                                                 <select name="c_name" class="form-control custom-select" data-placeholder="Choose a Category" tabindex="1">
                                                                     <option>--Select Category--</option>
-                                                                    <?php $ssql ="select * from res_category";
-													$res=mysqli_query($db, $ssql); 
-													while($rows=mysqli_fetch_array($res))  
-													{
-                                                       echo' <option value="'.$rows['c_id'].'">'.$rows['c_name'].'</option>';;
-													}  
-                                                 
-													?>
+                                                                    <?php
+                                                                    $restaurantManager = new RestaurantManager();
+                                                                    $categoryList = $restaurantManager->getCategoryList();
+
+                                                                    echo $categoryList;
+                                                                    ?>
+
+
                                                                 </select>
                                                             </div>
                                                         </div>
