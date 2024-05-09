@@ -2,7 +2,7 @@
 declare(strict_types= 1);
 namespace MyApp;
 use MyApp\Database;
-use MyApp\SearchService;
+use MyApp\Services\SearchService;
 
 class SearchController{
     private $db;

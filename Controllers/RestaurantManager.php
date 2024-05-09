@@ -87,6 +87,38 @@ class RestaurantManager
         return $restaurants;
     }
 
+    public function getAllGrocries()
+    {
+        $restaurants = [];
+
+        $sql = "SELECT * FROM shop WHERE type=2 ORDER BY rs_id DESC";
+        $query = $this->db->query($sql);
+        if ($query && $query->num_rows > 0) {
+            while ($row = $query->fetch_assoc()) {
+
+                $categoryName = $this->getCategoryNameById($row['c_id']);
+
+                $restaurant = [
+                    'rs_id' => $row['rs_id'],
+                    'categoryName' => $categoryName,
+                    'title' => $row['title'],
+                    'email' => $row['email'],
+                    'phone' => $row['phone'],
+                    'url' => $row['url'],
+                    'openHour' => $row['o_hr'],
+                    'closeHour' => $row['c_hr'],
+                    'workingDays' => $row['o_days'],
+                    'address' => $row['address'],
+                    'image' => $row['image'],
+                    'date' => $row['date']
+                ];
+                $restaurants[] = $restaurant;
+            }
+        }
+        return $restaurants;
+    }
+
+
     private function getCategoryNameById($categoryId)
     {
         // Perform database query to get category name
@@ -176,14 +208,24 @@ class RestaurantManager
         $this->db->query($mql);
         header("location:all_restaurant.php");
     }
+    public function getRestaurantRating($restaurantId)
+{
+    $sql = "SELECT rating FROM shop WHERE rs_id = ?";
+    $stmt = $this->db->prepare($sql);
+    $this->db->bindParams($stmt, "i", $restaurantId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        return $row['rating'];
+    } else {
+        return 0;
+    }
+}
     // 
 
-    public function deleteRelatedMenu($restaurantID)
-    {
-        $query = "DELETE FROM dishes WHERE rs_id = ?";
-        $stmt = $this->db->prepare($query);
-        $stmt->execute([$restaurantID]);
-    }
+   
     public function updateRestaurant($restaurantID, $title, $email, $phone, $url, $openHour, $closeHour, $workingDays, $image, $address, $categoryName)
     {
         if (
@@ -207,5 +249,12 @@ class RestaurantManager
 
             return true;
         }
+    }
+
+    public function deleteRelatedMenu($groceryID)
+    {
+        $query = "DELETE FROM dishes WHERE rs_id = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([$groceryID]);
     }
 }

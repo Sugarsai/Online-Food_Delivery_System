@@ -97,7 +97,7 @@ class MenuManager{
         
 
         if ($this->db->countRows($query) > 0) {
-            while ($rows = mysqli_fetch_array($query)) {
+            while ($rows = mysqli_fetch_assoc($query)) {
                 $shopid = (int)$rows['rs_id'];
                 $fetch = $this->getRestaurantDetails($shopid);
 
@@ -126,5 +126,11 @@ class MenuManager{
         $result = $this->db->fetchArray($stmt);
 
         return $result;
+    }
+    public function deleteRelatedMenu($restaurantID)
+    {
+        $query = "DELETE FROM dishes WHERE rs_id = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([$restaurantID]);
     }
 }

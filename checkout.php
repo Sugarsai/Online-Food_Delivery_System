@@ -1,17 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php
-$item_total = 0;
-foreach ($_SESSION["cart_item"] as $item) {
-    $item_total += ($item["price"] * $item["quantity"]);
-}
-
+include("vendor/autoload.php");
 include_once 'product-action.php';
-require_once 'vendor/autoload.php';
-
+error_reporting(0);
 session_start();
-
 use MyApp\OrderManager;
+use MyApp\CouponManager;
+
+
 function function_alert() { 
       
 
@@ -19,33 +16,39 @@ function function_alert() {
     echo "<script>window.location.replace('your_orders.php');</script>"; 
 } 
 
+$couponManager = new CouponManager();
+$orderManager = new OrderManager();
 
-
-$orderManager = new OrderManager(); // Create an instance of OrderManager
-
-if(isset($_POST['submit'])) {
-    $couponCode = $_POST['coupon'];
-
-    // Calculate total price of the order
-    $item_total = 0;
-    foreach ($_SESSION["cart_item"] as $item) {
-        $item_total += ($item["price"] * $item["quantity"]);
-    }
-
-    // Apply coupon and get discounted price
-    $totalPrice = $orderManager->applyCoupon($couponCode, $item_total);
-
-    // Place the order
-    foreach ($_SESSION["cart_item"] as $item) {
-        $orderManager->placeOrder($_SESSION["user_id"], $item["title"], $item["quantity"], $totalPrice);
-    }
-
-    // Clear cart items
-    unset($_SESSION["cart_item"]);
-
-    $success = "Thank you. Your order has been placed!";
-    function_alert();
+if(empty($_SESSION["user_id"]))
+{
+	header('location:login.php');
 }
+else{
+
+										  
+												foreach ($_SESSION["cart_item"] as $item)
+												{
+											
+												$item_total += ($item["price"]*$item["quantity"]);
+												
+                                                if(isset($_POST['submit'])) {
+                                                    $couponCode = $_POST['coupon'];
+                                                
+                                                    
+                                                    $totalPrice = $couponManager->applyCoupon($couponCode, $item_total);
+                                                
+                                                
+                                                    foreach ($_SESSION["cart_item"] as $item) {
+                                                        $orderManager->placeOrder($_SESSION["user_id"], $item["title"], $item["quantity"], $totalPrice);
+                                                    }
+                                                
+                                                
+                                                    unset($_SESSION["cart_item"]);
+                                                
+                                                    $success = "Thank you. Your order has been placed!";
+                                                    function_alert();
+                                                }
+												}
 ?>
 
 
@@ -245,7 +248,7 @@ if(isset($_POST['submit'])) {
                         for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@gmail.com  
                         Visit My Website : developerrony.com -->
 <?php
-
+}
 ?>
 <!--  Author Name: MH RONY.
 GigHub Link: https://github.com/dev-mhrony

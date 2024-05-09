@@ -91,10 +91,5 @@ class GroceryManager
         $this->db->query($mql);
         header("location:all_groceries.php");
     }
-    public function deleteRelatedMenu($groceryID)
-    {
-        $query = "DELETE FROM dishes WHERE rs_id = ?";
-        $stmt = $this->db->prepare($query);
-        $stmt->execute([$groceryID]);
-    }
+   
 }

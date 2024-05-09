@@ -7,7 +7,9 @@
 <?php 
     require_once 'vendor/autoload.php';
     use MyApp\User;
-    use MyApp\Database;
+    use MyApp\Services\AuthService;
+    ob_start();
+    
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -62,7 +64,7 @@
                     <ul class="nav navbar-nav">
                         <li class="nav-item"> <a class="nav-link active" href="index.php">Home <span class="sr-only">(current)</span></a> </li>
                         <li class="nav-item"> <a class="nav-link active" href="restaurants.php">Restaurants <span class="sr-only"></span></a> </li>
-
+                        <li class="nav-item"> <a class="nav-link active" href="Categories.php">Categories<span class="sr-only"></span></a> </li>
                         <?php
 						if(empty($_SESSION["user_id"]))
 							{
@@ -94,12 +96,13 @@
 
 <?php
 $user = new User();
+$auth = new AuthService($user);
 $message = '';
 $success = '';
 session_start(); 
 if(isset($_POST['submit']))  
 {
-    $login = $user->loginUser($_POST['username'], $_POST['password']);
+    $login = $auth->login($_POST['username'], $_POST['password']);
 	if($login === true) 
 	{
          header("refresh:1;url=index.php"); 
@@ -170,5 +173,8 @@ if(isset($_POST['submit']))
 
 
 </body>
+<?php 
+ob_end_flush();
+?>
 
 </html>

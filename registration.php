@@ -10,13 +10,15 @@
 require_once 'vendor/autoload.php';
 use MyApp\Database;
 use MyApp\User;
+use MyApp\Services\AuthService;
 $db = new Database();
 session_start(); 
 #include("connection/connect.php"); 
 if(isset($_POST['submit'] )) 
 {
      $user = new User();
-     $registration_result = $user->registerUser($_POST['username'], $_POST['firstname'], $_POST['lastname'], $_POST['email'], $_POST['phone'], $_POST['password'], $_POST['address']);
+     $auth = new AuthService($user);
+     $registration_result = $auth->register($_POST['username'], $_POST['firstname'], $_POST['lastname'], $_POST['email'], $_POST['phone'], $_POST['password'], $_POST['address']);
      if ($registration_result === true) {
         header("refresh:0.1;url=login.php");
         } else {
@@ -73,7 +75,7 @@ if(isset($_POST['submit'] ))
                         <ul class="nav navbar-nav">
                             <li class="nav-item"> <a class="nav-link active" href="index.php">Home <span class="sr-only">(current)</span></a> </li>
                             <li class="nav-item"> <a class="nav-link active" href="restaurants.php">Restaurants <span class="sr-only"></span></a> </li>
-
+                            <li class="nav-item"> <a class="nav-link active" href="Categories.php">Categories<span class="sr-only"></span></a> </li>
                             <?php
 						if(empty($_SESSION["user_id"]))
 							{

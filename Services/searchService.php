@@ -1,6 +1,6 @@
 <?php 
 declare(strict_types=1);
-namespace MyApp;
+namespace MyApp\Services;
 use MyApp\Database;
 
 class SearchService{

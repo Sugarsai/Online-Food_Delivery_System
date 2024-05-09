@@ -7,70 +7,127 @@ for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@
 * Visit My Website : developerrony.com
 
 */ -->
-                <!DOCTYPE html>
+<!DOCTYPE html>
                 <html lang="en">
                 <?php
+include("../connection/connect.php");
 
-                include "../vendor/autoload.php";
+session_start();
 
-                use MyApp\RestaurantManager;
-
-                session_start();
-                $error = "";
-                $success = "";
-
-                $restaurantManager = new RestaurantManager();
-
-                if (isset($_POST['submit'])) {
-                    $fname = $_FILES['file']['name'];
-                    $temp = $_FILES['file']['tmp_name'];
-                    $fsize = $_FILES['file']['size'];
-                    $extension = pathinfo($fname, PATHINFO_EXTENSION);
-                    $fnew = uniqid() . '.' . $extension;
-                    $store = "Res_img/" . basename($fnew);
-
-                    if (in_array($extension, ['jpg', 'png', 'gif'])) {
-                        if ($fsize >= 1000000) {
-                            $error = '<div class="alert alert-danger alert-dismissible fade show">
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <strong>Max Image Size is 1024kb!</strong> Try different Image.
-                                </div>';
-                        } else {
-                            $res_name = $_POST['res_name'];
-                            $result = $restaurantManager->updateRestaurant($_GET['res_upd'], $_POST['c_name'], $res_name, $_POST['email'], $_POST['phone'], $_POST['url'], $_POST['o_hr'], $_POST['c_hr'], $_POST['o_days'], $_POST['address'], $fnew, $temp, $store);
-
-                            if ($result) {
-                                $success = '<div class="alert alert-success alert-dismissible fade show">
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                        <strong>Record Updated!</strong>.
-                                    </div>';
-                            } else {
-                                $error = '<div class="alert alert-danger alert-dismissible fade show">
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                        <strong>Error updating record!</strong>
-                                    </div>';
-                            }
-                        }
-                    } elseif ($extension == '') {
-                        $error = '<div class="alert alert-danger alert-dismissible fade show">
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <strong>Select an image</strong>
-                            </div>';
-                    } else {
-                        $error = '<div class="alert alert-danger alert-dismissible fade show">
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <strong>Invalid extension!</strong> PNG, JPG, GIF are accepted.
-                            </div>';
-                    }
-                }
-                ?>
+$error = '';
+$success = '';
 
 
 
 
+if(isset($_POST['submit']))        
+{
+	
+			
+		
+			
+		  
+		
+		
+		if(empty($_POST['c_name'])||empty($_POST['res_name'])||$_POST['email']==''||$_POST['phone']==''||$_POST['url']==''||$_POST['o_hr']==''||$_POST['c_hr']==''||$_POST['o_days']==''||$_POST['address']=='')
+		{	
+											$error = 	'<div class="alert alert-danger alert-dismissible fade show">
+																<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+																<strong>All fields Must be Fillup!</strong>
+															</div>';
+									
+		
+								
+		}
+	else
+		{
+		
+				$fname = $_FILES['file']['name'];
+								$temp = $_FILES['file']['tmp_name'];
+								$fsize = $_FILES['file']['size'];
+								$extension = explode('.',$fname);
+								$extension = strtolower(end($extension));  
+								$fnew = uniqid().'.'.$extension;
+   
+								$store = "Res_img/".basename($fnew);                   
+	
+					if($extension == 'jpg'||$extension == 'png'||$extension == 'gif' )
+					{        
+									if($fsize>=1000000)
+										{
+		
+		
+												$error = 	'<div class="alert alert-danger alert-dismissible fade show">
+																<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+																<strong>Max Image Size is 1024kb!</strong> Try different Image.
+															</div>';
+	   
+										}
+		
+									else
+										{
+												
+												
+												$res_name=$_POST['res_name'];
+				                                 
+												$sql = "update shop set c_id='$_POST[c_name]', title='$res_name',email='$_POST[email]',phone='$_POST[phone]',url='$_POST[url]',o_hr='$_POST[o_hr]',c_hr='$_POST[c_hr]',o_days='$_POST[o_days]',address='$_POST[address]',image='$fnew' where rs_id='$_GET[restaurant_upd]' ";  // store the submited data ino the database :images												mysqli_query($db, $sql); 
+													mysqli_query($db, $sql); 
+												move_uploaded_file($temp, $store);
+			  
+													$success = 	'<div class="alert alert-success alert-dismissible fade show">
+																<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+																<strong>Record Updated!</strong>.
+															</div>';
+                
+	
+										}
+					}
+					elseif($extension == '')
+					{
+						$error = 	'<div class="alert alert-danger alert-dismissible fade show">
+																<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+																<strong>select image</strong>
+															</div>';
+					}
+					else{
+					
+											$error = 	'<div class="alert alert-danger alert-dismissible fade show">
+																<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+																<strong>invalid extension!</strong>png, jpg, Gif are accepted.
+															</div>';
+						
+	   
+						}               
+	   
+	   
+	   }
 
 
-                ?>
+
+	
+	
+	
+
+}
+
+
+
+
+
+
+
+
+?>
+                <!-- /*!
+* Author Name: MH RONY.
+* GigHub Link: https://github.com/dev-mhrony
+* Facebook Link:https://www.facebook.com/dev.mhrony
+* Youtube Link: https://www.youtube.com/channel/UChYhUxkwDNialcxj-OFRcDw
+for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@gmail.com
+* Visit My Website : developerrony.com
+
+*/ -->
+
                 <head>
                     <meta charset="utf-8">
                     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -83,6 +140,15 @@ for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@
                     <link href="css/helper.css" rel="stylesheet">
                     <link href="css/style.css" rel="stylesheet">
                 </head>
+                <!-- /*!
+* Author Name: MH RONY.
+* GigHub Link: https://github.com/dev-mhrony
+* Facebook Link:https://www.facebook.com/dev.mhrony
+* Youtube Link: https://www.youtube.com/channel/UChYhUxkwDNialcxj-OFRcDw
+for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@gmail.com
+* Visit My Website : developerrony.com
+
+*/ -->
 
                 <body class="fix-header">
                     <!-- <div class="preloader">
@@ -107,6 +173,16 @@ for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@
                                         <li class="nav-item dropdown mega-dropdown"> <a class="nav-link dropdown-toggle text-muted  " href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-th-large"></i></a>
                                             <div class="dropdown-menu animated zoomIn">
                                                 <ul class="mega-dropdown-menu row">
+                                                    <!-- /*!
+* Author Name: MH RONY.
+* GigHub Link: https://github.com/dev-mhrony
+* Facebook Link:https://www.facebook.com/dev.mhrony
+* Youtube Link: https://www.youtube.com/channel/UChYhUxkwDNialcxj-OFRcDw
+for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@gmail.com
+* Visit My Website : developerrony.com
+
+*/ -->
+
 
                                                     <li class="col-lg-3  m-b-30">
                                                         <h4 class="m-b-20">CONTACT US</h4>
@@ -162,6 +238,15 @@ for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@
                                         </li>
 
                                     </ul>
+                                    <!-- /*!
+* Author Name: MH RONY.
+* GigHub Link: https://github.com/dev-mhrony
+* Facebook Link:https://www.facebook.com/dev.mhrony
+* Youtube Link: https://www.youtube.com/channel/UChYhUxkwDNialcxj-OFRcDw
+for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@gmail.com
+* Visit My Website : developerrony.com
+
+*/ -->
 
                                     <ul class="navbar-nav my-lg-0">
                                         <li class="nav-item dropdown">
@@ -176,6 +261,15 @@ for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@
                                 </div>
                             </nav>
                         </div>
+                        <!-- /*!
+* Author Name: MH RONY.
+* GigHub Link: https://github.com/dev-mhrony
+* Facebook Link:https://www.facebook.com/dev.mhrony
+* Youtube Link: https://www.youtube.com/channel/UChYhUxkwDNialcxj-OFRcDw
+for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@gmail.com
+* Visit My Website : developerrony.com
+
+*/ -->
 
                         <div class="left-sidebar">
 
@@ -212,6 +306,15 @@ for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@
                             </div>
 
                         </div>
+                        <!-- /*!
+* Author Name: MH RONY.
+* GigHub Link: https://github.com/dev-mhrony
+* Facebook Link:https://www.facebook.com/dev.mhrony
+* Youtube Link: https://www.youtube.com/channel/UChYhUxkwDNialcxj-OFRcDw
+for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@gmail.com
+* Visit My Website : developerrony.com
+
+*/ -->
 
                         <div class="page-wrapper">
                             <div style="padding-top: 10px;">
@@ -228,8 +331,8 @@ for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@
 
 
 
-                                <?php echo $error;
-                                echo $success; ?>
+                                <?php  echo $error;
+									        echo $success; ?>
 
 
 
@@ -242,16 +345,9 @@ for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@
                                         <div class="card-body">
                                             <form action='' method='post' enctype="multipart/form-data">
                                                 <div class="form-body">
-                                                    <?php
-                                                    $restaurantManager = new RestaurantManager();
-
-                                                    $restaurantIds = $restaurantManager->getRestaurantId();
-
-                                                    while ($row = $restaurantIds->fetch_assoc()) {
-                                                        echo '<option value="' . $row['rs_id'] . '">' . $row['rs_id'] . '</option>';
-                                                    }
-                                                    ?>
-
+                                                    <?php $ssql ="select * from shop where rs_id='$_GET[restaurant_upd]'";
+													$res=mysqli_query($db, $ssql); 
+													$row=mysqli_fetch_array($res);?>
                                                     <hr>
                                                     <div class="row p-t-20">
                                                         <div class="col-md-6">
@@ -349,7 +445,17 @@ for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@
                                                                     <option value="24hr-x7">24hr-x7</option>
                                                                 </select>
                                                             </div>
-                                                                </div>
+                                                        </div>
+
+                                                        <!-- /*!
+* Author Name: MH RONY.
+* GigHub Link: https://github.com/dev-mhrony
+* Facebook Link:https://www.facebook.com/dev.mhrony
+* Youtube Link: https://www.youtube.com/channel/UChYhUxkwDNialcxj-OFRcDw
+for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@gmail.com
+* Visit My Website : developerrony.com
+
+*/ -->
 
                                                         <div class="col-md-6">
                                                             <div class="form-group has-danger">
@@ -364,14 +470,14 @@ for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@
                                                                 <label class="control-label">Select Category</label>
                                                                 <select name="c_name" class="form-control custom-select" data-placeholder="Choose a Category" tabindex="1">
                                                                     <option>--Select Category--</option>
-                                                                    <?php
-                                                                    $restaurantManager = new RestaurantManager();
-                                                                    $categoryList = $restaurantManager->getCategoryList();
-
-                                                                    echo $categoryList;
-                                                                    ?>
-
-
+                                                                    <?php $ssql ="select * from res_category";
+													$res=mysqli_query($db, $ssql); 
+													while($rows=mysqli_fetch_array($res))  
+													{
+                                                       echo' <option value="'.$rows['c_id'].'">'.$rows['c_name'].'</option>';;
+													}  
+                                                 
+													?>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -383,6 +489,15 @@ for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@
 
                                                     <h3 class="box-title m-t-40">Restaurant Address</h3>
                                                     <hr>
+                                                    <!-- /*!
+* Author Name: MH RONY.
+* GigHub Link: https://github.com/dev-mhrony
+* Facebook Link:https://www.facebook.com/dev.mhrony
+* Youtube Link: https://www.youtube.com/channel/UChYhUxkwDNialcxj-OFRcDw
+for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@gmail.com
+* Visit My Website : developerrony.com
+
+*/ -->
 
                                                     <div class="row">
                                                         <div class="col-md-12 ">
@@ -408,6 +523,15 @@ for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@
                         </div>
 
                     </div>
+                    <!-- /*!
+* Author Name: MH RONY.
+* GigHub Link: https://github.com/dev-mhrony
+* Facebook Link:https://www.facebook.com/dev.mhrony
+* Youtube Link: https://www.youtube.com/channel/UChYhUxkwDNialcxj-OFRcDw
+for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@gmail.com
+* Visit My Website : developerrony.com
+
+*/ -->
 
                     </div>
 
@@ -422,4 +546,14 @@ for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@
                     <script src="js/custom.min.js"></script>
 
                 </body>
+                <!-- /*!
+* Author Name: MH RONY.
+* GigHub Link: https://github.com/dev-mhrony
+* Facebook Link:https://www.facebook.com/dev.mhrony
+* Youtube Link: https://www.youtube.com/channel/UChYhUxkwDNialcxj-OFRcDw
+for any PHP, Laravel, Python, Dart, Flutter work contact me at developer.mhrony@gmail.com
+* Visit My Website : developerrony.com
+
+*/ -->
+
                 </html>

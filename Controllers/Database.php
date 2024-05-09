@@ -9,7 +9,7 @@ class Database {
     private $username = "root";
     private $password = "Refaat";
     private $dbname = "ordersystem";
-    private function __construct() {
+    public function __construct() {
         try {
             $this->conn = new \mysqli($this->localhost, $this->username, $this->password, $this->dbname);
             #echo "Connected Successfully";

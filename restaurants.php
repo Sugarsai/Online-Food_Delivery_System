@@ -10,7 +10,10 @@
 include 'vendor/autoload.php';
 include 'connection/connect.php';
 use MyApp\RestaurantManager;
+
 session_start();
+
+
 ?>
 <!-- Author Name: MH RONY.
     GigHub Link: https://github.com/dev-mhrony
@@ -55,7 +58,7 @@ session_start();
                                     class="sr-only">(current)</span></a> </li>
                         <li class="nav-item"> <a class="nav-link active" href="restaurants.php">Restaurants <span
                                     class="sr-only"></span></a> </li>
-
+                                    <li class="nav-item"> <a class="nav-link active" href="Categories.php">Categories<span class="sr-only"></span></a> </li>
                         <?php
 						if(empty($_SESSION["user_id"]))
 							{
@@ -112,20 +115,7 @@ session_start();
                         Visit My Website: developerrony.com -->
 
         <section class="restaurants-page">
-            <div class="container">
-            <div class="top-search" style="margin: 10px;" >
-    <form action="search.php" method="get" name="searchForm">
-        <div class="input-group">
-            <span class="input-group-addon"><i class="fa fa-search"></i></span>
-            <input type="text" class="form-control" name="searchQuery" placeholder="Search" aria-label="Search" required>
-            <span class="input-group-btn">
-                <button class="btn btn-default" type="button" onclick="clearSearch()">
-                    <i class="fa fa-times"></i>
-                </button>
-            </span>
-        </div>
-    </form>
-</div>
+            
                 <div class="row">
                     <div class="col-xs-12 col-sm-5 col-md-5 col-lg-3">
                     </div>
